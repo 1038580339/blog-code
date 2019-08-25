@@ -6,3 +6,5 @@
 
 * [markdown书写方式](markdown.md)
 
+* [vue生命周期](vue-life.md)
+
