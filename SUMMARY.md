@@ -8,3 +8,4 @@
 
 * [vue生命周期](vue-life.md)
 
+* [vue组件通信方式](vue-prop.md)
