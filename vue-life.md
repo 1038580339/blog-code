@@ -1,7 +1,7 @@
 ### vue生命周期每一步做了些什么
 （譬如，data渲染，el渲染，什么时候可以获取到）  
 
-![vue life](./vue-life.png)
+![vue life](./img/vue-life.png)
 
 
 * beforeCreate
@@ -95,7 +95,7 @@
 </html>
 ```
 
-![vue life](./vue-life-console1.png)  
+![vue life](./img/vue-life-console.png)  
 
 
 

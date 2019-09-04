@@ -5,30 +5,30 @@
 > 父组件  props
 > 子组件 emit发送message
 
-![vue life](./vue-prop1.png)  
-![vue life](./vue-prop2.png)  
+![vue life](./img/vue-prop1.png)  
+![vue life](./img/vue-prop2.png)  
 
 
 #### 利用总线方式可以平级组件进行通信 eventBus
 
 1.建一个中间js
 
-![vue life](./vue-prop3.png)
+![vue life](./img/vue-prop3.png)
 
 
 2.建第一个子组件
 
-![vue life](./vue-prop4.png)
+![vue life](./img/vue-prop4.png)
 
 
 3.建第二个子组件
 
-![vue life](./vue-prop5.png)
+![vue life](./img/vue-prop5.png)
 
 
 4.建父组件
 
-![vue life](./vue-prop6.png)
+![vue life](./img/vue-prop6.png)
 
 * 创建一个事件总线，例如demo中的eventBus，用它作为通信桥梁
 * 在需要传值的组件中用bus.$emit触发一个自定义事件，并传递参数
