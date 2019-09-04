@@ -1,0 +1,401 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>vue生命周期 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="呼啦啦圈圈圆圆年年">
+        
+        
+    
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-vuejs-2/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="website.css">
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="vue-prop.html" />
+    
+    
+    <link rel="prev" href="markdown.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/1038580339" target="_blank" class="custom-link">github地址</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    站点简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="code.html">
+            
+                <a href="code.html">
+            
+                    
+                    技术文章
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="markdown.html">
+            
+                <a href="markdown.html">
+            
+                    
+                    markdown书写方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.2" data-path="vue-life.html">
+            
+                <a href="vue-life.html">
+            
+                    
+                    vue生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="vue-prop.html">
+            
+                <a href="vue-prop.html">
+            
+                    
+                    vue组件通信方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="vue-emit.html">
+            
+                <a href="vue-emit.html">
+            
+                    
+                    vue $emit是如何实现的
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >vue生命周期</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="vue&#x751F;&#x547D;&#x5468;&#x671F;&#x6BCF;&#x4E00;&#x6B65;&#x505A;&#x4E86;&#x4E9B;&#x4EC0;&#x4E48;">vue&#x751F;&#x547D;&#x5468;&#x671F;&#x6BCF;&#x4E00;&#x6B65;&#x505A;&#x4E86;&#x4E9B;&#x4EC0;&#x4E48;</h3>
+<p>&#xFF08;&#x8B6C;&#x5982;&#xFF0C;data&#x6E32;&#x67D3;&#xFF0C;el&#x6E32;&#x67D3;&#xFF0C;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x5230;&#xFF09;  </p>
+<p><img src="img/vue-life.png" alt="vue life"></p>
+<ul>
+<li>beforeCreate</li>
+<li>created</li>
+<li>beforeMount</li>
+<li>mounted</li>
+<li>beforeUpdate</li>
+<li>updated</li>
+<li>beforeDestroy</li>
+<li>destroyed</li>
+</ul>
+<pre><code class="lang-javascript">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;vue&#x751F;&#x547D;&#x5468;&#x671F;&#x5B66;&#x4E60;&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.bootcss.com/vue/2.4.2/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;h1&gt;&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;script&gt;
+  var vm = new Vue({
+    el: &apos;#app&apos;,
+    data: {
+      message: &apos;Vue&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&apos;
+    },
+    beforeCreate: function() {
+      console.group(&apos;------beforeCreate&#x521B;&#x5EFA;&#x524D;&#x72B6;&#x6001;------&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot; , &quot;el     : &quot; + this.$el); //undefined
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); //undefined 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message) 
+    },
+    created: function() {
+      console.group(&apos;------created&#x521B;&#x5EFA;&#x5B8C;&#x6BD5;&#x72B6;&#x6001;------&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + this.$el); //undefined
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316; 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;
+    },
+    beforeMount: function() {
+      console.group(&apos;------beforeMount&#x6302;&#x8F7D;&#x524D;&#x72B6;&#x6001;------&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + (this.$el)); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;
+      console.log(this.$el);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;  
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;  
+    },
+    mounted: function() {
+      console.group(&apos;------mounted &#x6302;&#x8F7D;&#x7ED3;&#x675F;&#x72B6;&#x6001;------&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + this.$el); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;
+      console.log(this.$el);    
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316;
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message); //&#x5DF2;&#x88AB;&#x521D;&#x59CB;&#x5316; 
+    },
+    beforeUpdate: function () {
+      console.group(&apos;beforeUpdate &#x66F4;&#x65B0;&#x524D;&#x72B6;&#x6001;===============&#x300B;&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + this.$el);
+      console.log(this.$el);   
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message); 
+    },
+    updated: function () {
+      console.group(&apos;updated &#x66F4;&#x65B0;&#x5B8C;&#x6210;&#x72B6;&#x6001;===============&#x300B;&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + this.$el);
+      console.log(this.$el); 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message); 
+    },
+    beforeDestroy: function () {
+      console.group(&apos;beforeDestroy &#x9500;&#x6BC1;&#x524D;&#x72B6;&#x6001;===============&#x300B;&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + this.$el);
+      console.log(this.$el);    
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message); 
+    },
+    destroyed: function () {
+      console.group(&apos;destroyed &#x9500;&#x6BC1;&#x5B8C;&#x6210;&#x72B6;&#x6001;===============&#x300B;&apos;);
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;el     : &quot; + this.$el);
+      console.log(this.$el);  
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;data   : &quot; + this.$data); 
+      console.log(&quot;%c%s&quot;, &quot;color:red&quot;,&quot;message: &quot; + this.message)
+    }
+  })
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p><img src="img/vue-life-console.png" alt="vue life">  </p>
+<h4 id="&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4E86;&#x6302;&#x8F7D;&#x5143;&#x7D20;-elapp-&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;">&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4E86;&#x6302;&#x8F7D;&#x5143;&#x7D20; el:#app &#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;</h4>
+<h4 id="&#x5982;&#x679C;&#x540C;&#x65F6;&#x5B58;&#x5728;template-&#x548C;-el-&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;">&#x5982;&#x679C;&#x540C;&#x65F6;&#x5B58;&#x5728;template &#x548C; el &#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;</h4>
+<h4 id="&#x9664;&#x4E86;&#x8FD9;&#x51E0;&#x79CD;&#xFF0C;&#x8FD8;&#x6709;&#x4EC0;&#x4E48;&#x751F;&#x547D;&#x5468;&#x671F;">&#x9664;&#x4E86;&#x8FD9;&#x51E0;&#x79CD;&#xFF0C;&#x8FD8;&#x6709;&#x4EC0;&#x4E48;&#x751F;&#x547D;&#x5468;&#x671F;</h4>
+<p>activited    keep-alive&#x4E13;&#x5C5E;&#xFF0C;&#x7EC4;&#x4EF6;&#x88AB;&#x6FC0;&#x6D3B;&#x65F6;&#x8C03;&#x7528;
+deadctivated    keep-alive&#x4E13;&#x5C5E;&#xFF0C;&#x7EC4;&#x4EF6;&#x88AB;&#x9500;&#x6BC1;&#x65F6;&#x8C03;&#x7528;</p>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+
+            </div>
+
+            
+                
+                <a href="markdown.html" class="navigation navigation-prev " aria-label="Previous page: markdown书写方式">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="vue-prop.html" class="navigation navigation-next " aria-label="Next page: vue组件通信方式">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"vue生命周期","level":"2.1.2","depth":2,"next":{"title":"vue组件通信方式","level":"2.1.3","depth":2,"path":"vue-prop.md","ref":"vue-prop.md","articles":[]},"previous":{"title":"markdown书写方式","level":"2.1.1","depth":2,"path":"markdown.md","ref":"markdown.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-fontsettings","theme-vuejs-2","collapsible-menu","splitter","mermaid-gb3","-search","chapter-fold"],"root":".","styles":{"website":"website.css"},"pluginsConfig":{"collapsible-menu":{},"splitter":{},"mermaid-gb3":{},"chapter-fold":{},"highlight":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"theme-vuejs-2":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"呼啦啦圈圈圆圆年年","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"","language":"zh-hans","links":{"sidebar":{"github地址":"https://github.com/1038580339"}},"gitbook":">=3.0.0","description":""},"file":{"path":"vue-life.md","mtime":"2019-09-04T06:31:59.206Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-04T07:38:49.216Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+
+    <script src="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

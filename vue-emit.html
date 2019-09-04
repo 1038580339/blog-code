@@ -1,0 +1,512 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>vue $emit是如何实现的 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="呼啦啦圈圈圆圆年年">
+        
+        
+    
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-vuejs-2/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="website.css">
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="vue-prop.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/1038580339" target="_blank" class="custom-link">github地址</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    站点简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="code.html">
+            
+                <a href="code.html">
+            
+                    
+                    技术文章
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="markdown.html">
+            
+                <a href="markdown.html">
+            
+                    
+                    markdown书写方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="vue-life.html">
+            
+                <a href="vue-life.html">
+            
+                    
+                    vue生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="vue-prop.html">
+            
+                <a href="vue-prop.html">
+            
+                    
+                    vue组件通信方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.4" data-path="vue-emit.html">
+            
+                <a href="vue-emit.html">
+            
+                    
+                    vue $emit是如何实现的
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >vue $emit是如何实现的</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="vue-emit">vue emit</h3>
+<p>&#x672C;&#x6587;&#x63A5;&#x4E0A;&#x4E00;&#x7BC7; <a href="vue-prop.html">vue&#x7EC4;&#x4EF6;&#x901A;&#x4FE1;&#x65B9;&#x5F0F;</a></p>
+<p>&#x5BF9;&#x4E8E;&#x7406;&#x89E3;emit&#x6765;&#x8BF4;&#xFF0C;&#x6211;&#x51B3;&#x5B9A;&#x8FD8;&#x662F;&#x4ECE;&#x6E90;&#x7801;&#x5165;&#x624B;</p>
+<p>&#x81F3;&#x4E8E;&#x4E0B;&#x9762;&#x6211;&#x662F;&#x5982;&#x4F55;&#x627E;&#x5230;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#xFF0C;&#x8BF7;&#x67E5;&#x770B; <a href="https://www.jianshu.com/p/557c8c1c250f" target="_blank">Vue&#x6E90;&#x7801;&#x89E3;&#x6790;</a>  </p>
+<p>ok&#xFF0C;&#x8FDB;&#x5165;&#x6B63;&#x9898;</p>
+<p>&#x6B64;&#x65F6;&#x6211;&#x4EEC;&#x6765;&#x5230;&#x4E86; \vue\src\core\instance\events.js</p>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x627E;&#x5230;&#x6211;&#x4EEC;&#x8FD9;&#x6B21;&#x9700;&#x8981;&#x7684;&#x4E3B;&#x89D2;</p>
+<pre><code class="lang-javascript">Vue.prototype.$emit = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event: string</span>): <span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">const</span> vm: Component = <span class="hljs-keyword">this</span>
+    <span class="hljs-keyword">if</span> (process.env.NODE_ENV !== <span class="hljs-string">&apos;production&apos;</span>) {
+      <span class="hljs-keyword">const</span> lowerCaseEvent = event.toLowerCase()
+      <span class="hljs-keyword">if</span> (lowerCaseEvent !== event &amp;&amp; vm._events[lowerCaseEvent]) {
+        tip(
+          <span class="hljs-string">`Event &quot;<span class="hljs-subst">${lowerCaseEvent}</span>&quot; is emitted in component `</span> +
+          <span class="hljs-string">`<span class="hljs-subst">${formatComponentName(vm)}</span> but the handler is registered for &quot;<span class="hljs-subst">${event}</span>&quot;. `</span> +
+          <span class="hljs-string">`Note that HTML attributes are case-insensitive and you cannot use `</span> +
+          <span class="hljs-string">`v-on to listen to camelCase events when using in-DOM templates. `</span> +
+          <span class="hljs-string">`You should probably use &quot;<span class="hljs-subst">${hyphenate(event)}</span>&quot; instead of &quot;<span class="hljs-subst">${event}</span>&quot;.`</span>
+        )
+      }
+    }
+    <span class="hljs-keyword">let</span> cbs = vm._events[event]
+    <span class="hljs-keyword">if</span> (cbs) {
+      cbs = cbs.length &gt; <span class="hljs-number">1</span> ? toArray(cbs) : cbs
+      <span class="hljs-keyword">const</span> args = toArray(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>)
+      <span class="hljs-keyword">const</span> info = <span class="hljs-string">`event handler for &quot;<span class="hljs-subst">${event}</span>&quot;`</span>
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, l = cbs.length; i &lt; l; i++) {
+        invokeWithErrorHandling(cbs[i], vm, args, vm, info) <span class="hljs-comment">// handler: Function,context: any,args: null | any[],vm: any,info: string</span>
+      }
+    }
+    <span class="hljs-keyword">return</span> vm
+  }
+</code></pre>
+<h5 id="&#x6B64;&#x5904;&#xFF0C;&#x5728;vueprototype&#x4E0A;&#x5B9A;&#x4E49;&#x4E86;emit&#x63A5;&#x53D7;&#x53C2;&#x6570;eventstring-&#x8FD4;&#x56DE;-component">&#x6B64;&#x5904;&#xFF0C;&#x5728;Vue.prototype&#x4E0A;&#x5B9A;&#x4E49;&#x4E86;$emit,&#x63A5;&#x53D7;&#x53C2;&#x6570;(event:string) &#x8FD4;&#x56DE; component</h5>
+<p>&#x63A5;&#x4E0B;&#x6765;&#x5206;&#x6790;&#x4E0B;&#x5185;&#x90E8;&#x51FD;&#x6570;</p>
+<pre><code class="lang-javascript">      <span class="hljs-keyword">if</span> (process.env.NODE_ENV !== <span class="hljs-string">&apos;production&apos;</span>) {
+      <span class="hljs-keyword">const</span> lowerCaseEvent = event.toLowerCase()
+      <span class="hljs-keyword">if</span> (lowerCaseEvent !== event &amp;&amp; vm._events[lowerCaseEvent]) {
+        tip(
+          <span class="hljs-string">`Event &quot;<span class="hljs-subst">${lowerCaseEvent}</span>&quot; is emitted in component `</span> +
+          <span class="hljs-string">`<span class="hljs-subst">${formatComponentName(vm)}</span> but the handler is registered for &quot;<span class="hljs-subst">${event}</span>&quot;. `</span> +
+          <span class="hljs-string">`Note that HTML attributes are case-insensitive and you cannot use `</span> +
+          <span class="hljs-string">`v-on to listen to camelCase events when using in-DOM templates. `</span> +
+          <span class="hljs-string">`You should probably use &quot;<span class="hljs-subst">${hyphenate(event)}</span>&quot; instead of &quot;<span class="hljs-subst">${event}</span>&quot;.`</span>
+        )
+      }
+    }
+</code></pre>
+<p>&#x8FD9;&#x4E00;&#x6574;&#x6BB5;&#x4F5C;&#x4E3A;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E0B;&#x7684;&#x63D0;&#x793A;&#xFF0C;&#x4E0E;&#x5B9E;&#x73B0;&#x65E0;&#x5173;&#xFF0C;&#x6211;&#x4EEC;&#x5FFD;&#x7565;</p>
+<pre><code class="lang-javascrfipt">    let cbs = vm._events[event]
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#x4F5C;&#x4E3A;&#x4E00;&#x5F00;&#x59CB;&#x6267;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x53E5;&#xFF0C;event&#x662F;&#x6211;&#x4EEC;&#x4F20;&#x5165;&#x53C2;&#x6570;&#xFF0C;vm._events&#x53C8;&#x662F;&#x4EC0;&#x4E48;&#x4E1C;&#x897F;&#x5462;&#xFF1F;</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initEvents</span> (<span class="hljs-params">vm: Component</span>) </span>{
+  vm._events = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>)
+  vm._hasHookEvent = <span class="hljs-literal">false</span>
+  <span class="hljs-comment">// init parent attached events</span>
+  <span class="hljs-keyword">const</span> listeners = vm.$options._parentListeners
+  <span class="hljs-keyword">if</span> (listeners) {
+    updateComponentListeners(vm, listeners)
+  }
+}
+</code></pre>
+<h5 id="events&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x66B4;&#x9732;&#x7684;initevents&#x4E2D;&#x5B9A;&#x4E49;">_events&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x66B4;&#x9732;&#x7684;initevents&#x4E2D;&#x5B9A;&#x4E49;</h5>
+<p>&#x8FD9;&#x91CC;&#x8FD8;&#x9700;&#x770B;&#x4E0B;$on</p>
+<pre><code class="lang-javascript">     Vue.prototype.$on = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event: string | Array&lt;string&gt;, fn: Function</span>): <span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">const</span> vm: Component = <span class="hljs-keyword">this</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(event)) {
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, l = event.length; i &lt; l; i++) {
+        vm.$on(event[i], fn)
+      }
+    } <span class="hljs-keyword">else</span> {
+      (vm._events[event] || (vm._events[event] = [])).push(fn)
+      <span class="hljs-comment">// optimize hook:event cost by using a boolean flag marked at registration</span>
+      <span class="hljs-comment">// instead of a hash lookup</span>
+      <span class="hljs-keyword">if</span> (hookRE.test(event)) {
+        vm._hasHookEvent = <span class="hljs-literal">true</span>
+      }
+    }
+    <span class="hljs-keyword">return</span> vm
+  }
+</code></pre>
+<h5 id="on&#x65F6;&#xFF0C;&#x5C06;&#x4E8B;&#x4EF6;&#x6302;&#x5230;&#x4E86;events&#x4E0A;">$on&#x65F6;&#xFF0C;&#x5C06;&#x4E8B;&#x4EF6;&#x6302;&#x5230;&#x4E86;_events&#x4E0A;</h5>
+<p>&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x57FA;&#x672C;&#x77E5;&#x9053;&#x4E86;_event&#x7684;&#x6765;&#x6E90;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x5230;&#x4E0B;&#x4E00;&#x6BB5;</p>
+<pre><code class="lang-javavscript">let cbs = vm._events[event]
+if (cbs) {
+      cbs = cbs.length &gt; 1 ? toArray(cbs) : cbs
+      const args = toArray(arguments, 1)
+      const info = `event handler for &quot;${event}&quot;`
+      for (let i = 0, l = cbs.length; i &lt; l; i++) {
+        invokeWithErrorHandling(cbs[i], vm, args, vm, info) // handler: Function,context: any,args: null | any[],vm: any,info: string
+      }
+    }
+</code></pre>
+<p>&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x4E8B;&#x4EF6;&#x5B58;&#x5728;&#x4E8E;_event&#x65F6;&#xFF0C;&#x5219;&#x8FDB;&#x884C;&#x4E0B;&#x9762;&#x64CD;&#x4F5C;&#xFF0C;&#x90A3;&#x4E48;toArray&#x662F;&#x4EC0;&#x4E48;&#xFF1F;</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {
+  tip,
+  toArray,
+  hyphenate,
+  formatComponentName,
+  invokeWithErrorHandling
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../util/index&apos;</span>
+</code></pre>
+<p>&#x4ECE;../util/index&#x5F15;&#x5165;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x627E;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x4E8E;&#x662F;&#x53D1;&#x751F;&#x4E86;&#x4E00;&#x4EF6;&#x6709;&#x70B9;&#x5C34;&#x5C2C;&#x7684;&#x4E8B;</p>
+<pre><code class="lang-javavscript">export * from &apos;shared/util&apos;
+export * from &apos;./lang&apos;
+export * from &apos;./env&apos;
+export * from &apos;./options&apos;
+export * from &apos;./debug&apos;
+export * from &apos;./props&apos;
+export * from &apos;./error&apos;
+export * from &apos;./next-tick&apos;
+export { defineReactive } from &apos;../observer/index&apos;
+</code></pre>
+<p>&#x957F;&#x6210;&#x8FD9;&#x4E2A;&#x6211;&#x600E;&#x4E48;&#x627E;&#xFF1F;&#xFF1F;&#xFF1F; &#x4E0D;&#x8FC7;&#x603B;&#x662F;&#x80FD;&#x627E;&#x5230;&#x7684;&#x561B;</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">/**
+ * Convert an Array-like object to a real Array.
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toArray</span> (<span class="hljs-params">list: any, start?: number</span>): <span class="hljs-title">Array</span>&lt;<span class="hljs-title">any</span>&gt; </span>{
+  start = start || <span class="hljs-number">0</span>
+  <span class="hljs-keyword">let</span> i = list.length - start
+  <span class="hljs-keyword">const</span> ret: <span class="hljs-built_in">Array</span>&lt;any&gt; = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(i)
+  <span class="hljs-keyword">while</span> (i--) {
+    ret[i] = list[i + start]
+  }
+  <span class="hljs-keyword">return</span> ret
+}
+</code></pre>
+<p>&#x7531;&#x4E0A;&#x53EF;&#x89C1;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5C06;list&#x8F6C;&#x4E3A;&#x6570;&#x7EC4;&#xFF0C;&#x4EE5;&#x53CA;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4ECE;&#x6570;&#x7EC4;&#x54EA;&#x91CC;&#x5F00;&#x59CB;</p>
+<p>ok,&#x6211;&#x4EEC;&#x8FD4;&#x56DE;&#x6E90;&#x7801;</p>
+<pre><code class="lang-javavscript">let cbs = vm._events[event]
+if (cbs) {
+      cbs = cbs.length &gt; 1 ? toArray(cbs) : cbs
+      const args = toArray(arguments, 1)
+      const info = `event handler for &quot;${event}&quot;`
+      for (let i = 0, l = cbs.length; i &lt; l; i++) {
+        invokeWithErrorHandling(cbs[i], vm, args, vm, info) // handler: Function,context: any,args: null | any[],vm: any,info: string
+      }
+    }
+</code></pre>
+<p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x6BD4;&#x8F83;&#x660E;&#x786E;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x662F;cbs&#x5982;&#x679C;&gt;1,&#x8F6C;&#x4E3A;&#x6570;&#x7EC4;&#x3002;args&#x8F6C;&#x4E3A;&#x6570;&#x7EC4;&#xFF0C;&#x5E76;&#x4ECE;&#x7B2C;&#x4E00;&#x4E2A;&#x5F00;&#x59CB;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4ECE;&#x7B2C;&#x4E00;&#x4E2A;&#x5F00;&#x59CB;&#x5462;&#xFF1F;&#xFF1F;&#xFF1F;</p>
+<p>&#x8FD9;&#x4E2A;&#x5C31;&#x8981;&#x4ECE;Vue&#x5B98;&#x65B9;&#x6587;&#x6863;&#x8BF4;&#x8D77;&#x4E86;&#xFF0C;$emit&#x6709;&#x4E24;&#x79CD;&#x7528;&#x6CD5; <a href="https://cn.vuejs.org/v2/api/#vm-emit" target="_blank">emit&#x7528;&#x6CD5;</a></p>
+<pre><code class="lang-javascript">vm.$emit( eventName, [&#x2026;args] )
+
+<span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">&apos;welcome&apos;</span>)
+
+<span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">&apos;give-advice&apos;</span>, <span class="hljs-keyword">this</span>.possibleAdvice[randomAdviceIndex])
+</code></pre>
+<h4 id="emit&#x7B2C;&#x4E00;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;&#x4E8B;&#x4EF6;&#x540D;&#x4F20;&#x5165;&#xFF0C;&#x4F59;&#x4E0B;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;&#x4E8B;&#x4EF6;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x4F20;&#x5165;">emit&#x7B2C;&#x4E00;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;&#x4E8B;&#x4EF6;&#x540D;&#x4F20;&#x5165;&#xFF0C;&#x4F59;&#x4E0B;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;&#x4E8B;&#x4EF6;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x4F20;&#x5165;</h4>
+<p>&#x6700;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x5230;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x51FD;&#x6570;</p>
+<pre><code class="lang-javavscript">    invokeWithErrorHandling(cbs[i], vm, args, vm, info) // handler: Function,context: any,args: null | any[],vm: any,info: string
+</code></pre>
+<p>&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x5DF2;&#x7ECF;&#x5907;&#x6CE8;&#x4E86;&#x8FD9;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#x540D;&#xFF0C;&#x6211;&#x4EEC;&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">invokeWithErrorHandling</span> (<span class="hljs-params">
+  handler: Function,
+  context: any,
+  args: null | any[],
+  vm: any,
+  info: string
+</span>) </span>{
+  <span class="hljs-keyword">let</span> res
+  <span class="hljs-keyword">try</span> {
+    res = args ? handler.apply(context, args) : handler.call(context)
+    <span class="hljs-keyword">if</span> (res &amp;&amp; !res._isVue &amp;&amp; isPromise(res) &amp;&amp; !res._handled) {
+      res.catch(e =&gt; handleError(e, vm, info + <span class="hljs-string">` (Promise/async)`</span>))
+      <span class="hljs-comment">// issue #9511</span>
+      <span class="hljs-comment">// avoid catch triggering multiple times when nested calls</span>
+      res._handled = <span class="hljs-literal">true</span>
+    }
+  } <span class="hljs-keyword">catch</span> (e) {
+    handleError(e, vm, info)
+  }
+  <span class="hljs-keyword">return</span> res
+}
+</code></pre>
+<p>try&#x4E2D;&#x4E3A;&#x51FD;&#x6570;&#x6267;&#x884C;</p>
+<pre><code class="lang-javascript">res = args ? handler.apply(context, args) : handler.call(context)
+</code></pre>
+<p>&#x7B2C;&#x4E00;&#x53E5;&#x5982;&#x679C;args&#x5B58;&#x5728;&#xFF0C;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x5165;&#xFF0C;&#x8FD9;&#x4E2A;&#x521A;&#x624D;&#x8BF4;&#x8FC7;&#x4E86;emit&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#xFF0C;&#x8FD9;&#x8FB9;&#x5C31;&#x4F53;&#x73B0;&#x4E86;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;toArray(args,1)&#x53BB;&#x6389;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x3002;</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">if</span> (res &amp;&amp; !res._isVue &amp;&amp; isPromise(res) &amp;&amp; !res._handled) {
+      res.catch(e =&gt; handleError(e, vm, info + <span class="hljs-string">` (Promise/async)`</span>))
+      <span class="hljs-comment">// issue #9511</span>
+      <span class="hljs-comment">// avoid catch triggering multiple times when nested calls</span>
+      res._handled = <span class="hljs-literal">true</span>
+    }
+</code></pre>
+<p>&#x8FD9;&#x8FB9;&#x662F;&#x5BF9;res&#x51FD;&#x6570;&#x51FA;&#x9519;&#x7684;&#x6355;&#x83B7;&#x62A5;&#x9519;&#xFF0C;res&#x5B58;&#x5728;&#x5224;&#x65AD;&#xFF0C;&#x662F;&#x5426;&#x662F;promise&#x5224;&#x65AD;&#xFF0C;&#x662F;&#x5426;&#x6CA1;&#x6709;&#x5904;&#x7406;&#x8FC7;&#xFF0C;&#x90A3;_isVue&#x662F;&#x4EC0;&#x4E48;&#xFF1F;&#xFF1F;</p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x7EE7;&#x7EED;&#x770B;&#x5230;Vue&#x7684;_init&#x65B9;&#x6CD5;</p>
+<pre><code class="lang-javascript">    <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initMixin</span> (<span class="hljs-params">Vue: Class&lt;Component&gt;</span>) </span>{
+  Vue.prototype._init = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">options?: Object</span>) </span>{
+    <span class="hljs-keyword">const</span> vm: Component = <span class="hljs-keyword">this</span>
+    <span class="hljs-comment">// a uid</span>
+    vm._uid = uid++
+
+    <span class="hljs-keyword">let</span> startTag, endTag
+    <span class="hljs-comment">/* istanbul ignore if */</span>
+    <span class="hljs-keyword">if</span> (process.env.NODE_ENV !== <span class="hljs-string">&apos;production&apos;</span> &amp;&amp; config.performance &amp;&amp; mark) {
+      startTag = <span class="hljs-string">`vue-perf-start:<span class="hljs-subst">${vm._uid}</span>`</span>
+      endTag = <span class="hljs-string">`vue-perf-end:<span class="hljs-subst">${vm._uid}</span>`</span>
+      mark(startTag)
+    }
+
+    <span class="hljs-comment">// a flag to avoid this being observed</span>
+    vm._isVue = <span class="hljs-literal">true</span>
+    <span class="hljs-comment">// merge options</span>
+    &#x4E0B;&#x9762;&#x662F;&#x6DF7;&#x5408;options
+}
+</code></pre>
+<p>_init&#x65F6;&#x6709;&#x4E00;&#x53E5;&#x6CE8;&#x91CA;&#xFF0C;</p>
+<h5 id="a-flag-to-avoid-this-being-observed--&#x907F;&#x514D;&#x88AB;&#x89C2;&#x5BDF;&#x5230;&#x7684;&#x6807;&#x5FD7;">a flag to avoid this being observed  &#x907F;&#x514D;&#x88AB;&#x89C2;&#x5BDF;&#x5230;&#x7684;&#x6807;&#x5FD7;</h5>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x5982;&#x679C;&#x662F;&#x907F;&#x514D;&#x88AB;&#x89C2;&#x5BDF;&#x5230;&#x7684;&#x3002;&#x3002;&#x3002;&#x6211;&#x5C31;&#x4E0D;&#x7BA1;&#x4ED6;&#x4E86;&#xFF0C;&#x4E0D;&#x53BB;catch&#x4E86;&#x3002;</p>
+<p>ok&#xFF0C;&#x672C;&#x6587;&#x5230;&#x73B0;&#x5728;&#x5C31;&#x7ED3;&#x675F;&#x4E86;</p>
+<hr>
+<p>&#x4F5C;&#x8005;&#xFF1A;  &#x547C;&#x5566;&#x5566;&#x5708;&#x5708;&#x5706;&#x5706;&#x5E74;&#x5E74;  </p>
+<p>&#x672C;&#x6587;&#x7EAF;&#x539F;&#x521B;&#x3002;&#x3002;&#x3002;</p>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+
+            </div>
+
+            
+                
+                <a href="vue-prop.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: vue组件通信方式">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"vue $emit是如何实现的","level":"2.1.4","depth":2,"previous":{"title":"vue组件通信方式","level":"2.1.3","depth":2,"path":"vue-prop.md","ref":"vue-prop.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-fontsettings","theme-vuejs-2","collapsible-menu","splitter","mermaid-gb3","-search","chapter-fold"],"root":".","styles":{"website":"website.css"},"pluginsConfig":{"collapsible-menu":{},"splitter":{},"mermaid-gb3":{},"chapter-fold":{},"highlight":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"theme-vuejs-2":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"呼啦啦圈圈圆圆年年","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"","language":"zh-hans","links":{"sidebar":{"github地址":"https://github.com/1038580339"}},"gitbook":">=3.0.0","description":""},"file":{"path":"vue-emit.md","mtime":"2019-09-04T07:36:33.474Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-04T07:38:49.216Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+
+    <script src="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+
