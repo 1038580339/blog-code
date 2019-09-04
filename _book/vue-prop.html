@@ -1,0 +1,364 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>vue组件通信方式 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="呼啦啦圈圈圆圆年年">
+        
+        
+    
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-chapter-fold/chapter-fold.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-theme-vuejs-2/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="website.css">
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="vue-emit.html" />
+    
+    
+    <link rel="prev" href="vue-life.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://github.com/1038580339" target="_blank" class="custom-link">github地址</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    站点简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="code.html">
+            
+                <a href="code.html">
+            
+                    
+                    技术文章
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="markdown.html">
+            
+                <a href="markdown.html">
+            
+                    
+                    markdown书写方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="vue-life.html">
+            
+                <a href="vue-life.html">
+            
+                    
+                    vue生命周期
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.1.3" data-path="vue-prop.html">
+            
+                <a href="vue-prop.html">
+            
+                    
+                    vue组件通信方式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.4" data-path="vue-emit.html">
+            
+                <a href="vue-emit.html">
+            
+                    
+                    vue $emit是如何实现的
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >vue组件通信方式</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="&#x7EC4;&#x4EF6;&#x4E4B;&#x95F4;&#x5B58;&#x5728;&#x51E0;&#x79CD;&#x901A;&#x4FE1;&#x65B9;&#x5F0F;">&#x7EC4;&#x4EF6;&#x4E4B;&#x95F4;&#x5B58;&#x5728;&#x51E0;&#x79CD;&#x901A;&#x4FE1;&#x65B9;&#x5F0F;</h3>
+<h4 id="props-&#x7236;&#x5B50;&#x7EC4;&#x4EF6;&#x901A;&#x4FE1;">props &#x7236;&#x5B50;&#x7EC4;&#x4EF6;&#x901A;&#x4FE1;</h4>
+<blockquote>
+<p>&#x7236;&#x7EC4;&#x4EF6;  props
+&#x5B50;&#x7EC4;&#x4EF6; emit&#x53D1;&#x9001;message</p>
+</blockquote>
+<p><img src="img/vue-prop1.png" alt="vue life"><br><img src="img/vue-prop2.png" alt="vue life">  </p>
+<h4 id="&#x5229;&#x7528;&#x603B;&#x7EBF;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5E73;&#x7EA7;&#x7EC4;&#x4EF6;&#x8FDB;&#x884C;&#x901A;&#x4FE1;-eventbus">&#x5229;&#x7528;&#x603B;&#x7EBF;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x5E73;&#x7EA7;&#x7EC4;&#x4EF6;&#x8FDB;&#x884C;&#x901A;&#x4FE1; eventBus</h4>
+<p>1.&#x5EFA;&#x4E00;&#x4E2A;&#x4E2D;&#x95F4;js</p>
+<p><img src="img/vue-prop3.png" alt="vue life"></p>
+<p>2.&#x5EFA;&#x7B2C;&#x4E00;&#x4E2A;&#x5B50;&#x7EC4;&#x4EF6;</p>
+<p><img src="img/vue-prop4.png" alt="vue life"></p>
+<p>3.&#x5EFA;&#x7B2C;&#x4E8C;&#x4E2A;&#x5B50;&#x7EC4;&#x4EF6;</p>
+<p><img src="img/vue-prop5.png" alt="vue life"></p>
+<p>4.&#x5EFA;&#x7236;&#x7EC4;&#x4EF6;</p>
+<p><img src="img/vue-prop6.png" alt="vue life"></p>
+<ul>
+<li>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4E8B;&#x4EF6;&#x603B;&#x7EBF;&#xFF0C;&#x4F8B;&#x5982;demo&#x4E2D;&#x7684;eventBus&#xFF0C;&#x7528;&#x5B83;&#x4F5C;&#x4E3A;&#x901A;&#x4FE1;&#x6865;&#x6881;</li>
+<li>&#x5728;&#x9700;&#x8981;&#x4F20;&#x503C;&#x7684;&#x7EC4;&#x4EF6;&#x4E2D;&#x7528;bus.$emit&#x89E6;&#x53D1;&#x4E00;&#x4E2A;&#x81EA;&#x5B9A;&#x4E49;&#x4E8B;&#x4EF6;&#xFF0C;&#x5E76;&#x4F20;&#x9012;&#x53C2;&#x6570;</li>
+<li>&#x5728;&#x9700;&#x8981;&#x63A5;&#x6536;&#x6570;&#x636E;&#x7684;&#x7EC4;&#x4EF6;&#x4E2D;&#x7528;bus.$on&#x76D1;&#x542C;&#x81EA;&#x5B9A;&#x4E49;&#x4E8B;&#x4EF6;&#xFF0C;&#x5E76;&#x5728;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E2D;&#x5904;&#x7406;&#x4F20;&#x9012;&#x8FC7;&#x6765;&#x7684;&#x53C2;&#x6570;</li>
+</ul>
+<h4 id="vue&#x9AD8;&#x7EA7;&#x7EC4;&#x4EF6;&#x4E4B;provide--inject-22&#x51FA;">vue&#x9AD8;&#x7EA7;&#x7EC4;&#x4EF6;&#x4E4B;provide / inject 2.2&#x51FA;</h4>
+<p>provide / inject &#x662F; 2.2 &#x65B0;&#x589E;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x53EF;&#x4EE5;&#x4EE5;&#x4E00;&#x4E2A;&#x7956;&#x5148;&#x7EC4;&#x4EF6;&#x5411;&#x6240;&#x6709;&#x5B50;&#x5B59;&#x540E;&#x4EE3;&#x6CE8;&#x5165;&#x4F9D;&#x8D56;&#xFF08;&#x4E00;&#x4E2A;&#x5185;&#x5BB9;&#xFF09;&#x3002;</p>
+<p>provider/inject&#xFF1A;&#x7B80;&#x5355;&#x7684;&#x6765;&#x8BF4;&#x5C31;&#x662F;&#x5728;&#x7236;&#x7EC4;&#x4EF6;&#x4E2D;&#x901A;&#x8FC7;provider&#x6765;&#x63D0;&#x4F9B;&#x53D8;&#x91CF;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x5B50;&#x7EC4;&#x4EF6;&#x4E2D;&#x901A;&#x8FC7;inject&#x6765;&#x6CE8;&#x5165;&#x53D8;&#x91CF;&#x3002;</p>
+<p>1.&#x7236;&#x7EC4;&#x4EF6;</p>
+<pre><code class="lang-javascript">
+&lt;template&gt;
+&lt;div class=&quot;test&quot;&gt;
+&lt;son prop=&quot;data&quot;&gt;&lt;/son&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+name: &apos;Test&apos;,
+provide: {
+name: &apos;Garrett&apos;
+}
+}
+</code></pre>
+<p>2.&#x5B59;&#x5B50;&#x7EC4;&#x4EF6;&#xFF0C;&#x4E0D;&#x662F;&#x5B50;&#x7EC4;&#x4EF6;&#xFF0C;&#x662F;&#x5B59;&#x5B50;&#xFF0C;&#x662F;&#x5B59;&#x5B50;&#xFF0C;&#x662F;&#x5B59;&#x5B50;</p>
+<h5 id="&#x7236;&#x7EC4;&#x4EF6;-&#x5B50;&#x7EC4;&#x4EF6;-&#x5B59;&#x5B50;&#x7EC4;&#x4EF6;">&#x7236;&#x7EC4;&#x4EF6;-&#x5B50;&#x7EC4;&#x4EF6;-&#x5B59;&#x5B50;&#x7EC4;&#x4EF6;</h5>
+<pre><code class="lang-javascript">&lt;template&gt;
+&lt;div&gt;
+
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+name: &apos;Grandson&apos;,
+inject: [name]
+}
+&lt;/script&gt;
+</code></pre>
+<h4 id="vuex-&#x8FD9;&#x4E2A;&#x4E4B;&#x540E;&#x518D;&#x8BB2;&#xFF0C;&#x53E6;&#x8D77;&#x4E00;&#x7BC7;">vuex ,&#x8FD9;&#x4E2A;&#x4E4B;&#x540E;&#x518D;&#x8BB2;&#xFF0C;&#x53E6;&#x8D77;&#x4E00;&#x7BC7;</h4>
+
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+
+            </div>
+
+            
+                
+                <a href="vue-life.html" class="navigation navigation-prev " aria-label="Previous page: vue生命周期">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="vue-emit.html" class="navigation navigation-next " aria-label="Next page: vue $emit是如何实现的">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"vue组件通信方式","level":"2.1.3","depth":2,"next":{"title":"vue $emit是如何实现的","level":"2.1.4","depth":2,"path":"vue-emit.md","ref":"vue-emit.md","articles":[]},"previous":{"title":"vue生命周期","level":"2.1.2","depth":2,"path":"vue-life.md","ref":"vue-life.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-fontsettings","theme-vuejs-2","collapsible-menu","splitter","mermaid-gb3","-search","chapter-fold","livereload"],"root":".","styles":{"website":"website.css"},"pluginsConfig":{"chapter-fold":{},"collapsible-menu":{},"livereload":{},"splitter":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"theme-vuejs-2":{},"highlight":{},"mermaid-gb3":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"呼啦啦圈圈圆圆年年","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"","language":"zh-hans","links":{"sidebar":{"github地址":"https://github.com/1038580339"}},"gitbook":">=3.0.0","description":""},"file":{"path":"vue-prop.md","mtime":"2019-09-04T06:28:51.861Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-04T06:51:23.124Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-chapter-fold/chapter-fold.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+
+    <script src="gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+

@@ -1,0 +1,27 @@
+{
+    "title": "",
+    "language": "zh-hans",
+    "author": "呼啦啦圈圈圆圆年年",
+    "root": ".",
+    "description": "",
+    "gitbook": ">=3.0.0",
+    "styles": {
+      "website": "website.css"
+    },
+    "links" : {
+        "sidebar" : {
+            "github地址" : "https://github.com/1038580339"
+        }
+    },
+    "plugins": [
+      "-sharing",
+      "-fontsettings",
+      "theme-vuejs-2",
+      "collapsible-menu",
+      "splitter",
+      "mermaid-gb3",
+      "-search",
+      "chapter-fold"
+    ],
+    "pluginsConfig": {}
+  }

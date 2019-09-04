@@ -1,6 +1,4 @@
-
-* [站点简介](README.md)
-
+### 技术文章
 
 * [技术文章](code.md)
   * [markdown书写方式](markdown.md)
